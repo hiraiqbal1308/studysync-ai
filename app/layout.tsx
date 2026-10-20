@@ -13,10 +13,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
- title: "StudySync AI",
-
+title: "StudySync AI",
 description: "Your personal AI-powered study companion",
+manifest: "/manifest.json",
+icons: {
+  icon: "/icon.ico",
+},
 };
+
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

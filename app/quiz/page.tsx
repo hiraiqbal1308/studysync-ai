@@ -18,10 +18,10 @@ export default function QuizPage() {
   const [submitted, setSubmitted] = useState(false);
 
   async function generateQuiz() {
-    if (studyMaterial.trim().length < 30) {
-      setError("Please enter at least 30 characters of study material.");
-      return;
-    }
+    if (!studyMaterial.trim()) {
+  setError("Please enter a topic or study material.");
+  return;
+}
 
     setLoading(true);
     setError("");
@@ -115,7 +115,7 @@ export default function QuizPage() {
             id="studyMaterial"
             value={studyMaterial}
             onChange={(event) => setStudyMaterial(event.target.value)}
-            placeholder="Paste your notes or study material here (at least 30 characters)..."
+            placeholder="Enter any subject, topic, or paste your study material here..."
             rows={7}
             disabled={loading}
             className="w-full rounded-xl border border-slate-700 bg-slate-950 p-4 text-white outline-none focus:border-cyan-400 disabled:opacity-60"

@@ -9,15 +9,15 @@ export async function POST(request: Request) {
   try {
     const { studyMaterial } = await request.json();
 
-    if (
-      typeof studyMaterial !== "string" ||
-      studyMaterial.trim().length < 30
-    ) {
-      return NextResponse.json(
-        { error: "Please enter at least 30 characters of study material." },
-        { status: 400 }
-      );
-    }
+   if (
+  typeof studyMaterial !== "string" ||
+  !studyMaterial.trim()
+) {
+  return NextResponse.json(
+    { error: "Please enter a subject, topic, or study material." },
+    { status: 400 }
+  );
+}
 
     const completion = await groq.chat.completions.create({
       model: "openai/gpt-oss-20b",
@@ -25,7 +25,9 @@ export async function POST(request: Request) {
         {
           role: "system",
           content: `You are an educational quiz generator.
-Generate exactly 5 multiple-choice questions from the supplied study material.
+Generate exactly 5 multiple-choice questions based on the user's input.
+The input may be a subject name, a short topic, or detailed study material.
+If only a topic is provided, use your educational knowledge to create relevant questions.
 Each question must have exactly 4 options.
 Return ONLY valid JSON in this format:
 {
@@ -39,7 +41,7 @@ Return ONLY valid JSON in this format:
   ]
 }
 correctAnswer must be a number from 0 to 3 representing the correct option's index.
-Make sure all questions and answers are based on the supplied material.`,
+Ensure all questions are accurate, educational, and relevant to the user's chosen subject or topic.`,
         },
         {
           role: "user",
